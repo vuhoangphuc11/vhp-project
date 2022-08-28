@@ -1,8 +1,8 @@
 # vhp-project
 
-###This is a project training by Vu Hoang Phuc
+### This is a project training by Vu Hoang Phuc
 
-####Technology in the project
+#### Technology in the project
 
 - Java 11
 - Spring boot
