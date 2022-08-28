@@ -9,3 +9,4 @@
 - MySQL
 - JWT Token
 - Swagger UI
+- Log4j
