@@ -1,7 +1,7 @@
 package com.vhp.code.security;
 
 import com.vhp.code.repository.TokenRepository;
-import com.vhp.code.service.UserDetailsServiceImpl;
+import com.vhp.code.service.user.UserDetailsServiceImpl;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

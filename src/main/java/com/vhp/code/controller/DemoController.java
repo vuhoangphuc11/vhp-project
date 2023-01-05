@@ -5,7 +5,7 @@ import com.vhp.code.model.UserModel;
 import com.vhp.code.payload.response.ResponseHeader;
 import com.vhp.code.payload.response.RestResponse;
 import com.vhp.code.repository.UserRepository;
-import com.vhp.code.service.UserService;
+import com.vhp.code.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

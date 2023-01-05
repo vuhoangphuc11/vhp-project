@@ -1,4 +1,4 @@
-package com.vhp.code.service;
+package com.vhp.code.service.user;
 
 import com.vhp.code.entity.User;
 import lombok.AllArgsConstructor;

@@ -11,8 +11,6 @@ import com.vhp.code.repository.RoleRepository;
 import com.vhp.code.repository.TokenRepository;
 import com.vhp.code.repository.UserRepository;
 import com.vhp.code.security.JwtTokenUtil;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
@@ -33,8 +31,6 @@ import java.util.Set;
 @RestController
 @RequestMapping("api/auth")
 public class AuthController {
-
-    private static Logger logger = LogManager.getLogger(AuthController.class);
 
     @Autowired
     private AuthenticationManager authenticationManager;
@@ -60,47 +56,37 @@ public class AuthController {
     public ResponseEntity<?> authenticateUser(@Validated @RequestBody SigninRequest signinRequest)
             throws Exception {
 
-        logger.info("-----START SIGN-IN-----");
-
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         authenticate(signinRequest.getUsername(), signinRequest.getPassword());
 
-        final UserDetails userDetails = userDetailsService.loadUserByUsername(
-                signinRequest.getUsername());
-
+        final UserDetails userDetails = userDetailsService.loadUserByUsername(signinRequest.getUsername());
         final String token = jwtTokenUtil.generateJwtToken(userDetails);
 
         Token tokenObj = new Token(userDetails.getUsername(), token, timestamp);
         tokenRepository.save(tokenObj);
-
-        logger.info("-----END SIGN-IN-----");
 
         return ResponseEntity.ok(token);
     }
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> registerUser(@Validated @RequestBody SignupRequest signupRequest) {
-        if (userRepository.existsByUsername(signupRequest.getUsername())) {
+        if (Boolean.TRUE.equals(userRepository.existsByUsername(signupRequest.getUsername()))) {
             return ResponseEntity.badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (userRepository.existsByEmail(signupRequest.getEmail())) {
+        if (Boolean.TRUE.equals(userRepository.existsByEmail(signupRequest.getEmail()))) {
             return ResponseEntity.badRequest()
                     .body(new MessageResponse("Error: Email is already taken!"));
         }
 
-        User user = new User(signupRequest.getUsername(), signupRequest.getEmail(),
-                encoder.encode(signupRequest.getPassword()));
-
+        User user = new User(signupRequest.getUsername(), signupRequest.getEmail(), encoder.encode(signupRequest.getPassword()));
         Set<Role> roles = new HashSet<>();
-
         Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
 
         roles.add(userRole);
-
         user.setRoles(roles);
 
         userRepository.save(user);

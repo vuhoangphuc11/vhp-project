@@ -1,12 +1,12 @@
 package com.vhp.code.payload.response;
 
+import com.vhp.code.util.DateUtil;
 import lombok.Data;
-
-import java.sql.Timestamp;
 
 @Data
 public class ResponseHeader {
-    private Timestamp msgDate = new Timestamp(System.currentTimeMillis());
+
+    private String msgDate = DateUtil.getCurrentDate();
     private int status;
 
     public ResponseHeader(int status) {

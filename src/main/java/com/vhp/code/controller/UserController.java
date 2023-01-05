@@ -75,14 +75,14 @@ public class UserController {
 //    }
 
     @PostMapping("/create-user")
-    public ResponseEntity<?> registerUser(@Validated @RequestBody SignupRequest createRequest) {
+    public ResponseEntity<?> createUser(@Validated @RequestBody SignupRequest createRequest) {
 
-        if (userRepository.existsByUsername(createRequest.getUsername())) {
+        if (Boolean.TRUE.equals(userRepository.existsByUsername(createRequest.getUsername()))) {
             return ResponseEntity.badRequest()
                     .body(new MessageResponse("Error: Username is already taken!"));
         }
 
-        if (userRepository.existsByEmail(createRequest.getEmail())) {
+        if (Boolean.TRUE.equals(userRepository.existsByEmail(createRequest.getEmail()))) {
             return ResponseEntity.badRequest()
                     .body(new MessageResponse("Error: Email is already taken!"));
         }
