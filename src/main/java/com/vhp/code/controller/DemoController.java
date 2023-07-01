@@ -5,7 +5,7 @@ import com.vhp.code.model.UserModel;
 import com.vhp.code.payload.response.ResponseHeader;
 import com.vhp.code.payload.response.RestResponse;
 import com.vhp.code.repository.UserRepository;
-import com.vhp.code.service.user.UserService;
+import com.vhp.code.service.user.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.List;
 public class DemoController {
 
     @Autowired
-    UserService userService;
+    private UserServiceImpl userService;
 
     @Autowired
     UserRepository userRepository;
@@ -29,6 +29,12 @@ public class DemoController {
             return new RestResponse<>(new ResponseHeader(HttpStatus.NOT_FOUND.value()), new User());
         }
         return new RestResponse(new ResponseHeader(HttpStatus.OK.value()), userService.findByUsername(username));
+    }
+
+    @GetMapping("/test")
+    public RestResponse<User> test(@RequestParam String test) {
+        Long testParseLong = Long.parseLong(test);
+        return new RestResponse(new ResponseHeader(HttpStatus.OK.value()), testParseLong);
     }
 
     @GetMapping("/greeting")

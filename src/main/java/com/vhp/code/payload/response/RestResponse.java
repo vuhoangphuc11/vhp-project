@@ -15,4 +15,6 @@ public class RestResponse<B> {
     private ResponseHeader header;
     @Valid
     private B body;
+//    @Valid
+//    private String message;
 }

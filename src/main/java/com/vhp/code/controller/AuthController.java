@@ -7,11 +7,14 @@ import com.vhp.code.entity.User;
 import com.vhp.code.payload.request.MessageResponse;
 import com.vhp.code.payload.request.SigninRequest;
 import com.vhp.code.payload.request.SignupRequest;
+import com.vhp.code.payload.response.ResponseHeader;
+import com.vhp.code.payload.response.RestResponse;
 import com.vhp.code.repository.RoleRepository;
 import com.vhp.code.repository.TokenRepository;
 import com.vhp.code.repository.UserRepository;
 import com.vhp.code.security.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -25,7 +28,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @RestController
@@ -62,11 +67,15 @@ public class AuthController {
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(signinRequest.getUsername());
         final String token = jwtTokenUtil.generateJwtToken(userDetails);
-
         Token tokenObj = new Token(userDetails.getUsername(), token, timestamp);
+        Map<String, String> map = new HashMap<>();
+        map.put("token", token);
+        map.put("username", userDetails.getUsername());
+
         tokenRepository.save(tokenObj);
 
-        return ResponseEntity.ok(token);
+//        return new RestResponse(new ResponseHeader(HttpStatus.OK.value()), map);
+        return ResponseEntity.status(HttpStatus.OK).body(map);
     }
 
     @PostMapping("/sign-up")
