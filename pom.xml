@@ -14,7 +14,7 @@
     <name>vhp-project</name>
     <description>Vu Hoang Phuc - Java Developer</description>
     <properties>
-        <java.version>11</java.version>
+        <java.version>23</java.version>
     </properties>
     <dependencies>
         <dependency>
